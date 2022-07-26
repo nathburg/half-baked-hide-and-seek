@@ -3,6 +3,7 @@ const shedButton = document.getElementById('shed-button');
 const treeButton = document.getElementById('tree-button');
 const boulderButton = document.getElementById('boulder-button');
 const resetButton = document.getElementById('reset-button');
+const tryAgainButton = document.getElementById('try-again');
 
 const shedContainer = document.getElementById('shed-container');
 const treeContainer = document.getElementById('tree-container');
@@ -16,9 +17,12 @@ const winsEl = document.getElementById('wins');
 const hidingPlaces = ['tree', 'shed', 'boulder'];
 const hidingEls = {'tree' : treeContainer, 'shed' : shedContainer, 'boulder' : boulderContainer}
 
-
 let correctGuesses = 0;
 let totalGuesses = 0;
+
+// tryAgainButton.style.display = 'block';
+// console.log(tryAgainButton.style.display)
+
 
 shedButton.addEventListener('click', () => {
     const hidingSpot = Math.floor(Math.random() * 3);
@@ -56,15 +60,25 @@ function updateDom() {
 
 resetButton.addEventListener('click', () => {
     clearStyle();
-    updateDom();
     correctGuesses = 0;
     totalGuesses = 0;
+    updateDom();
+    tryAgainButton.style.display = 'none';
+    shedButton.disabled = false;
+    treeButton.disabled = false;
+    boulderButton.disabled = false;
+})
+
+tryAgainButton.addEventListener('click', () => {
+    clearStyle();
+    tryAgainButton.style.display = 'none';
+    shedButton.disabled = false;
+    treeButton.disabled = false;
+    boulderButton.disabled = false;
 })
 
 
 function handleGuess(correctSpot, userGuess) {
-    // reset the styles
-    clearStyle();
     // then increment the guesses
     totalGuesses++;
     // then grab the appropriate container element for the correct guess from the DOM
@@ -77,4 +91,10 @@ function handleGuess(correctSpot, userGuess) {
     }
     // update the DOM to show this change to the user (including the losses, not tracked directly in state)
     updateDom();
+    // deactive buttons
+    shedButton.disabled = true;
+    treeButton.disabled = true;
+    boulderButton.disabled = true;
+
+    tryAgainButton.style.display = 'block';
 }
