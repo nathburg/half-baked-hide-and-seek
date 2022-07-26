@@ -22,3 +22,8 @@
     content: '😃';
     position: absolute;
 }
+
+.try-again {
+    margin: 20px;
+    display: none;
+}
