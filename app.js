@@ -2,6 +2,7 @@
 const shedButton = document.getElementById('shed-button');
 const treeButton = document.getElementById('tree-button');
 const boulderButton = document.getElementById('boulder-button');
+const resetButton = document.getElementById('reset-button');
 
 const shedContainer = document.getElementById('shed-container');
 const treeContainer = document.getElementById('tree-container');
@@ -40,11 +41,30 @@ boulderButton.addEventListener('click', () => {
     handleGuess(answer, 'boulder');
 });
 
-function handleGuess(correctSpot, userGuess) {
-    // reset the styles
+function clearStyle() {
     shedContainer.classList.remove('face');
     treeContainer.classList.remove('face');
     boulderContainer.classList.remove('face');
+}
+
+function updateDom() {
+    totalEl.textContent = totalGuesses;
+    winsEl.textContent = correctGuesses;
+    lossesEl.textContent = totalGuesses - correctGuesses;
+}
+
+
+resetButton.addEventListener('click', () => {
+    clearStyle();
+    updateDom();
+    correctGuesses = 0;
+    totalGuesses = 0;
+})
+
+
+function handleGuess(correctSpot, userGuess) {
+    // reset the styles
+    clearStyle();
     // then increment the guesses
     totalGuesses++;
     // then grab the appropriate container element for the correct guess from the DOM
@@ -56,7 +76,5 @@ function handleGuess(correctSpot, userGuess) {
         correctGuesses++;
     }
     // update the DOM to show this change to the user (including the losses, not tracked directly in state)
-    totalEl.textContent = totalGuesses;
-    winsEl.textContent = correctGuesses;
-    lossesEl.textContent = totalGuesses - correctGuesses;
+    updateDom();
 }
